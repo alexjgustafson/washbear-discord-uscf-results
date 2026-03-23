@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: USCF Affiliate Event Notifier — posts new tournament results to Discord
+
+Globals:
+  Function:
+    Timeout: 120
+    Runtime: nodejs24.x
+
+Parameters:
+  DiscordWebhookUrl:
+    Type: String
+    Description: Discord webhook URL for posting event notifications
+    NoEcho: true
+
+Resources:
+  SentEventsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: uscf-sent-events
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: eventId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: eventId
+          KeyType: HASH
+
+  NotifierFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      CodeUri: src/
+      Environment:
+        Variables:
+          DISCORD_WEBHOOK_URL: !Ref DiscordWebhookUrl
+          SENT_EVENTS_TABLE: !Ref SentEventsTable
+          SUBSCRIBED_AFFILIATES: 'A6033006,A9630067'
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SentEventsTable
+      Events:
+        HourlySchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 hour)
+            Enabled: true
+
+Outputs:
+  NotifierFunctionArn:
+    Description: Lambda function ARN
+    Value: !GetAtt NotifierFunction.Arn
+  SentEventsTableName:
+    Description: DynamoDB table name
+    Value: !Ref SentEventsTable
