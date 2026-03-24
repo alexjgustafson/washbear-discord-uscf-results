@@ -36,7 +36,7 @@ Resources:
           DISCORD_WEBHOOK_URL: !Ref DiscordWebhookUrl
           SENT_EVENTS_TABLE: !Ref SentEventsTable
           SUBSCRIBED_AFFILIATES: 'A6033006,A9630067,A6037681,A7382640,T5007119,A9024602,A6039541,A7441719'
-          SUBSCRIBED_PLAYERS: '12598530'
+          SUBSCRIBED_PLAYERS: '12598530,30916362'
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref SentEventsTable
