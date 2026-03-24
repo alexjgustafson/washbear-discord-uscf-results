@@ -47,6 +47,84 @@ Resources:
             Schedule: rate(1 hour)
             Enabled: true
 
+        # Monday 21:15–23:00 ET (EDT: Tue 01:15–03:00 UTC)
+        MondayNightSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: cron(15/5 1 ? * TUE *)
+            Enabled: true
+        MondayNightSchedule2:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 2 ? * TUE *)
+            Enabled: true
+        MondayNightSchedule3:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 3 ? * TUE *)
+            Enabled: true
+
+        # Tuesday 21:15–23:00 ET (EDT: Wed 01:15–03:00 UTC)
+        TuesdayNightSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: cron(15/5 1 ? * WED *)
+            Enabled: true
+        TuesdayNightSchedule2:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 2 ? * WED *)
+            Enabled: true
+        TuesdayNightSchedule3:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 3 ? * WED *)
+            Enabled: true
+
+        # Saturday 20:00–23:55 ET (EDT: Sun 00:00–03:55 UTC)
+        SaturdayNightSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 0 ? * SUN *)
+            Enabled: true
+        SaturdayNightSchedule2:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 1 ? * SUN *)
+            Enabled: true
+        SaturdayNightSchedule3:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 2 ? * SUN *)
+            Enabled: true
+        SaturdayNightSchedule4:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 3 ? * SUN *)
+            Enabled: true
+
+        # Sunday 20:00–23:55 ET (EDT: Mon 00:00–03:55 UTC)
+        SundayNightSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 0 ? * MON *)
+            Enabled: true
+        SundayNightSchedule2:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 1 ? * MON *)
+            Enabled: true
+        SundayNightSchedule3:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 2 ? * MON *)
+            Enabled: true
+        SundayNightSchedule4:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/5 3 ? * MON *)
+            Enabled: true
+
 Outputs:
   NotifierFunctionArn:
     Description: Lambda function ARN
