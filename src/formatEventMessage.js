@@ -4,5 +4,5 @@ export function formatEventMessage(event) {
         const affiliateLink = `[${event.affiliate.name}](https://ratings.uschess.org/affiliate/${event.affiliate.id})`
         return `${event.endDate} Event Result: ${eventLink} from affiliate ${affiliateLink}`
     }
-    return `${event.endDate} Event Result: ${eventLink}`
+    return `${event.endDate} Event Result: ${eventLink} played by ${event.playerName}`
 }

@@ -1,7 +1,15 @@
-export async function fetchPlayerEvents(playerId) {
-    const USCF_PLAYER_SECTIONS_ENDPOINT = `https://ratings-api.uschess.org/api/v1/members/${playerId}/sections`
-    const response = await fetch(USCF_PLAYER_SECTIONS_ENDPOINT)
+async function fetchPlayerName(playerId) {
+    const response = await fetch(`https://ratings-api.uschess.org/api/v1/members/${playerId}`)
     const result = await response.json()
+    return `${result.firstName} ${result.lastName}`
+}
+
+export async function fetchPlayerEvents(playerId) {
+    const [name, sectionsResponse] = await Promise.all([
+        fetchPlayerName(playerId),
+        fetch(`https://ratings-api.uschess.org/api/v1/members/${playerId}/sections`)
+    ])
+    const result = await sectionsResponse.json()
     const items = result.items ?? []
 
     // Deduplicate by event ID since a player could have multiple sections in the same event
@@ -18,7 +26,8 @@ export async function fetchPlayerEvents(playerId) {
             endDate: item.endDate ?? item.event.endDate,
             stateCode: item.event.stateCode,
             source: 'player',
-            playerId
+            playerId,
+            playerName: name
         })
     }
     return events
