@@ -21,6 +21,9 @@ All infrastructure is defined in `template.yaml` (AWS SAM).
 | `src/formatEventMessage.js` | Formats an event into a Discord message |
 | `src/sendToDiscord.js` | Posts a message to Discord via webhook |
 | `src/sentEvents.js` | DynamoDB read/write for tracking sent event IDs |
+| `scripts/add-player.sh` | Add a player to the subscribed list |
+| `scripts/remove-player.sh` | Remove a player from the subscribed list |
+| `scripts/list-players.sh` | List all subscribed players |
 
 ## Prerequisites
 
@@ -76,6 +79,27 @@ SUBSCRIBED_AFFILIATES: 'A6033006,A9630067'
 ```
 
 Edit this list and redeploy to track different affiliates.
+
+### Subscribed Players
+
+Player IDs and names are tracked in `template.yaml` as comments and a comma-separated `SUBSCRIBED_PLAYERS` env var. Use the helper scripts in `scripts/` to keep things consistent:
+
+```sh
+# List all current players
+./scripts/list-players.sh
+
+# Add a player
+./scripts/add-player.sh 12345678 "Jane Doe"
+
+# Remove a player
+./scripts/remove-player.sh 12345678
+```
+
+After any change, rebuild and deploy:
+
+```sh
+sam build && sam deploy
+```
 
 ### Discord Webhook URL
 
