@@ -1,3 +1,4 @@
 .env
 .aws-sam/
 src/node_modules/
+.kiro/steering/subscription-changes.md
