@@ -2,15 +2,19 @@
 #
 # Usage: ./scripts/list-players.sh
 #
-# Lists all subscribed players from template.yaml
+# Lists all subscribed player IDs from template.yaml
 
 set -euo pipefail
 
 TEMPLATE="template.yaml"
 
+PLAYERS=$(grep "SUBSCRIBED_PLAYERS:" "$TEMPLATE" | sed "s/.*'//; s/'//" | tr ',' '\n')
+COUNT=$(echo "$PLAYERS" | wc -l | tr -d ' ')
+
 echo "Subscribed players:"
 echo ""
-grep "# [0-9]* = " "$TEMPLATE" | sed 's/.*# /  /' | sort -t= -k2
+echo "$PLAYERS" | while read -r id; do
+    echo "  $id"
+done
 echo ""
-COUNT=$(grep -c "# [0-9]* = " "$TEMPLATE")
 echo "Total: $COUNT players"
