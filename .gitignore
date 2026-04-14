@@ -1,4 +1,5 @@
 .env
 .aws-sam/
 src/node_modules/
+samconfig.toml
 .kiro/steering/subscription-changes.md
