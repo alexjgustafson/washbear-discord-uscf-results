@@ -26,9 +26,11 @@ export async function handler(event = {}) {
     // Filter to only unsent events
     const newEvents = []
     for (const ev of events) {
-        if (!(await isEventSent(sentKey(ev)))) {
-            newEvents.push(ev)
-        }
+        const key = sentKey(ev)
+        if (await isEventSent(key)) continue
+        // Player events may have already been posted via an affiliate subscription
+        if (ev.source === 'player' && await isEventSent(ev.id)) continue
+        newEvents.push(ev)
     }
 
     console.log(`${events.length} total events, ${newEvents.length} new, seed mode: ${seedMode}`)
